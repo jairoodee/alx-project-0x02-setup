@@ -1,23 +1,22 @@
 import { useEffect, useState } from 'react';
 import Header from "../components/layout/Header";
-import Button from "../components/common/Button";
-import PostCard from "../components/common/PostCard";
-import { PostProps } from '@/interfaces';
+import UserCard from "../components/common/UserCard";
+import { UserProps } from '@/interfaces';
 
-export default function Posts() {
-  const [posts, setPosts] = useState<PostProps[]>([]);
+export default function Users() {
+  const [users, setUsers] = useState<UserProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
         if (!response.ok) {
-          throw new Error('Failed to fetch posts');
+          throw new Error('Failed to fetch users');
         }
         const data = await response.json();
-        setPosts(data);
+        setUsers(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -25,13 +24,8 @@ export default function Posts() {
       }
     };
 
-    fetchPosts();
+    fetchUsers();
   }, []);
-
-  const handleCreatePost = () => {
-    // Implement post creation logic here
-    console.log('Create post clicked');
-  };
 
   if (loading) {
     return (
@@ -39,7 +33,7 @@ export default function Posts() {
         <Header />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900">Loading posts...</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Loading users...</h1>
           </div>
         </div>
       </div>
@@ -66,15 +60,12 @@ export default function Posts() {
       <main>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">Posts</h1>
-            <Button onClick={handleCreatePost} className="bg-indigo-600 text-white hover:bg-indigo-700">
-              Create Post
-            </Button>
+            <h1 className="text-3xl font-bold text-gray-900">Users</h1>
           </div>
 
-          <div className="grid grid-cols-1 gap-6">
-            {posts.map((post) => (
-              <PostCard key={post.id} {...post} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {users.map((user) => (
+              <UserCard key={user.id} user={user} />
             ))}
           </div>
         </div>
