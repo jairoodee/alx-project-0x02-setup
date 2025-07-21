@@ -1,4 +1,4 @@
-# SoloForge: Mastering Project Autonomy
+# Next.js Project Setup and Basics
 
 ## Project Description
 
